@@ -8,8 +8,8 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 import sqlite3
 
-geocode_key = "40d1649f-0493-4b70-98ba-98533de7710b"
-weather_key = "735a880881174d6285c1e29b46c54fa9"
+geocode_key = "TOKEN"
+weather_key = "TOKEN"
 search_text = '%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%' \
               'D0%BA%D1%82%D0%BE%D0%B2'
 
@@ -20,7 +20,7 @@ attachment = []
 flag = False
 
 vk_session = vk_api.VkApi(
-    token='7743b35a5831ccea3966be434897942479514635d681b8b72285b76547191672c4fb3670a10802db84b12')
+    token='TOKEN')
 vk = vk_session.get_api()
 longpoll = VkBotLongPoll(vk_session, 194438446)
 
