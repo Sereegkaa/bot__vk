@@ -28,6 +28,7 @@ con = sqlite3.connect("food.db")
 cur = con.cursor()
 
 
+# создает inline либо стандартную клавиатуру
 def create_keyborad(ev):
     if 'inline_keyboard' in ev.client_info.keys():
         keyboard = VkKeyboard(inline=True)
@@ -36,6 +37,7 @@ def create_keyborad(ev):
     return keyboard
 
 
+# получает список продуктов для всех возможных рецептов
 def get_all_products():
     global cur
     result = [x[0].split(',') for x in cur.execute("SELECT products FROM food_list").fetchall()]
@@ -47,6 +49,7 @@ def get_all_products():
     return '\n'.join(set(result))
 
 
+# добавляет продукт к уже введённым
 def add_product(ev):
     global products
     x = ev
@@ -64,6 +67,7 @@ def add_product(ev):
             return
 
 
+# удаляет продукт
 def del_product(ev):
     global products
     x = ev
@@ -88,6 +92,7 @@ def del_product(ev):
             return
 
 
+# Вы правильно ввели продукты?
 def check_products(vk, ev):
     keyboard = create_keyborad(ev)
     keyboard.add_button("Да", color=VkKeyboardColor.DEFAULT)
@@ -145,6 +150,7 @@ def check_products(vk, ev):
                 return False
 
 
+# стартовая функция
 def start(vk, ev):
     global longpoll, products
 
@@ -198,6 +204,7 @@ def start(vk, ev):
     get_foods(vk, ev_now)
 
 
+# получает рецепт по введенным продуктам
 def get_foods(vk, ev):
     global products, foods, attachment
 
@@ -246,6 +253,7 @@ def get_foods(vk, ev):
                          keyboard=keyboard.get_keyboard())
 
 
+# создает клаиватуру с цифрами
 def keyboard_number(ev, n):
     keyboard = create_keyborad(ev)
     for i in range(n):
@@ -255,6 +263,7 @@ def keyboard_number(ev, n):
     return keyboard
 
 
+# работа с геопозицией
 def geo(longpoll, vk, ev):
     global geocode_key, weather_key
     geopos = str(ev.message['geo']['coordinates']['longitude']) + ',' + str(
@@ -344,6 +353,7 @@ def geo(longpoll, vk, ev):
                      keyboard=keyboard.get_keyboard())
 
 
+# вкладка мои рецепты
 def my_foods(vk, ev):
     global foods, attachment
     global flag
@@ -387,6 +397,7 @@ def my_foods(vk, ev):
         return True, ev
 
 
+# сохранение рецепта в "мои рецепты"
 def food_save(food, vk, ev):
     global con, cur
 
@@ -425,6 +436,7 @@ def food_save(food, vk, ev):
                                  keyboard=keyboard.get_keyboard())
 
 
+# главная фукнция
 def main():
     global vk_session, vk, longpoll, weather_key, search_text, products, foods, attachment, con, cur
     keyboard = VkKeyboard
